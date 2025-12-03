@@ -3,8 +3,13 @@ name: Build GUI
 on:
   push:
     branches: [ "master", "main" ]
+    tags:
+      - 'v*'
   pull_request:
     branches: [ "master", "main" ]
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -32,3 +37,11 @@ jobs:
       with:
         name: AutoEditorGUI
         path: dist/AutoEditorGUI.exe
+
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/AutoEditorGUI.exe
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
