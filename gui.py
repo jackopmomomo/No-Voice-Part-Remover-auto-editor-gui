@@ -75,21 +75,26 @@ class AutoEditorApp(ctk.CTk):
         self.grid_rowconfigure(0, weight=0)
         self.grid_rowconfigure(1, weight=1)
 
+        # Font configuration
+        self.font_family = "Meiryo" if os.name == "nt" else "Arial Unicode MS"
+        self.default_font = ctk.CTkFont(family=self.font_family, size=12)
+        self.header_font = ctk.CTkFont(family=self.font_family, size=20, weight="bold")
+
         # --- Sidebar ---
         self.sidebar_frame = ctk.CTkFrame(self, width=140, corner_radius=0)
         self.sidebar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
         self.sidebar_frame.grid_rowconfigure(4, weight=1)
 
-        self.logo_label = ctk.CTkLabel(self.sidebar_frame, text="Auto-Editor", font=ctk.CTkFont(size=20, weight="bold"))
+        self.logo_label = ctk.CTkLabel(self.sidebar_frame, text="Auto-Editor", font=self.header_font)
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
 
-        self.appearance_mode_label = ctk.CTkLabel(self.sidebar_frame, text=self.tr("appearance"), anchor="w")
+        self.appearance_mode_label = ctk.CTkLabel(self.sidebar_frame, text=self.tr("appearance"), anchor="w", font=self.default_font)
         self.appearance_mode_label.grid(row=5, column=0, padx=20, pady=(10, 0))
         self.appearance_mode_optionemenu = ctk.CTkOptionMenu(self.sidebar_frame, values=["System", "Light", "Dark"],
-                                                               command=self.change_appearance_mode_event)
+                                                               command=self.change_appearance_mode_event, font=self.default_font, dropdown_font=self.default_font)
         self.appearance_mode_optionemenu.grid(row=6, column=0, padx=20, pady=(10, 10))
         
-        self.lang_button = ctk.CTkButton(self.sidebar_frame, text=self.tr("lang_switch"), command=self.toggle_language)
+        self.lang_button = ctk.CTkButton(self.sidebar_frame, text=self.tr("lang_switch"), command=self.toggle_language, font=self.default_font)
         self.lang_button.grid(row=7, column=0, padx=20, pady=(10, 20))
 
         # --- Main Content ---
@@ -101,10 +106,10 @@ class AutoEditorApp(ctk.CTk):
         self.file_frame.grid(row=0, column=1, padx=20, pady=20, sticky="ew")
         self.file_frame.grid_columnconfigure(0, weight=1)
 
-        self.entry_file = ctk.CTkEntry(self.file_frame, textvariable=self.file_path, placeholder_text=self.tr("file_placeholder"))
+        self.entry_file = ctk.CTkEntry(self.file_frame, textvariable=self.file_path, placeholder_text=self.tr("file_placeholder"), font=self.default_font)
         self.entry_file.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
 
-        self.btn_browse = ctk.CTkButton(self.file_frame, text=self.tr("browse"), command=self.browse_file)
+        self.btn_browse = ctk.CTkButton(self.file_frame, text=self.tr("browse"), command=self.browse_file, font=self.default_font)
         self.btn_browse.grid(row=0, column=1, padx=10, pady=10)
 
         # Options
@@ -112,26 +117,26 @@ class AutoEditorApp(ctk.CTk):
         self.options_frame.grid(row=1, column=1, padx=20, pady=(0, 20), sticky="nsew")
         
         # Margin
-        self.label_margin = ctk.CTkLabel(self.options_frame, text=self.tr("margin"))
+        self.label_margin = ctk.CTkLabel(self.options_frame, text=self.tr("margin"), font=self.default_font)
         self.label_margin.grid(row=0, column=0, padx=10, pady=10, sticky="w")
-        self.entry_margin = ctk.CTkEntry(self.options_frame, placeholder_text="0.2")
+        self.entry_margin = ctk.CTkEntry(self.options_frame, placeholder_text="0.2", font=self.default_font)
         self.entry_margin.insert(0, "0.2")
         self.entry_margin.grid(row=0, column=1, padx=10, pady=10, sticky="w")
 
         # Export Format
-        self.label_export = ctk.CTkLabel(self.options_frame, text=self.tr("export"))
+        self.label_export = ctk.CTkLabel(self.options_frame, text=self.tr("export"), font=self.default_font)
         self.label_export.grid(row=1, column=0, padx=10, pady=10, sticky="w")
-        self.option_export = ctk.CTkOptionMenu(self.options_frame, values=["default", "premiere", "resolve", "final-cut-pro", "shotcut", "kdenlive", "clip-sequence"])
+        self.option_export = ctk.CTkOptionMenu(self.options_frame, values=["default", "premiere", "resolve", "final-cut-pro", "shotcut", "kdenlive", "clip-sequence"], font=self.default_font, dropdown_font=self.default_font)
         self.option_export.grid(row=1, column=1, padx=10, pady=10, sticky="w")
         
         self.options_frame.grid_columnconfigure(1, weight=1)
 
         # Run Button
-        self.btn_run = ctk.CTkButton(self, text=self.tr("run"), command=self.run_auto_editor, height=40)
+        self.btn_run = ctk.CTkButton(self, text=self.tr("run"), command=self.run_auto_editor, height=40, font=self.default_font)
         self.btn_run.grid(row=2, column=1, padx=20, pady=(0, 20), sticky="ew")
 
         # Output Log
-        self.textbox = ctk.CTkTextbox(self, width=250)
+        self.textbox = ctk.CTkTextbox(self, width=250, font=self.default_font)
         self.textbox.grid(row=3, column=1, padx=20, pady=(0, 20), sticky="nsew")
         self.textbox.configure(state="disabled")
         self.grid_rowconfigure(3, weight=1)
