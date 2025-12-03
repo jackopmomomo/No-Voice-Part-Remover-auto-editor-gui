@@ -28,7 +28,7 @@ jobs:
         pyinstaller --noconfirm --onefile --windowed --name AutoEditorGUI --collect-all customtkinter --collect-all auto_editor gui.py
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: AutoEditorGUI
         path: dist/AutoEditorGUI.exe
